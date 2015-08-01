@@ -1,0 +1,24 @@
+{
+  "name": "laiz/laiz-monad",
+  "description": "Monad Utility",
+  "keywords": ["monad"],
+  "homepage": "https://github.com/nishimura/laiz-monad",
+  "license": "MIT",
+  "authors": [{
+    "name": "Satoshi Nishimura",
+    "email": "nishim314@gmail.com"
+  }],
+
+  "autoload": {
+    "psr-0": { "Laiz\\Monad": "src/" }
+  },
+  "autoload-dev": {
+    "psr-0": { "Laiz\\Test\\Monad": "test/src/" }
+  },
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.7.7"
+  }
+}
