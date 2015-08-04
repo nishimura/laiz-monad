@@ -6,7 +6,7 @@ use Laiz\Monad\MonadPlus;
 
 class Cons extends \Laiz\Monad\DataList
 {
-    private $value;
+    protected $value;
     public function __construct($value)
     {
         if ($value === null)
@@ -20,23 +20,17 @@ class Cons extends \Laiz\Monad\DataList
      */
     public function bind(callable $f)
     {
-        $ret = [];
+        $foldl = function($f, $b, $a){
+            return array_reduce($a->toArray(), $f, $b);
+        };
+        $concat = function ($arr) use ($foldl){
+            $f = function($carry, $item){
+                return self::fromArray(array_merge($carry->toArray(), $item->toArray()));
+            };
+            return $foldl($f, Nil::getInstance(), $arr);
+        };
 
-        foreach ($this->value as $v){
-            $inner = $f($v);
-
-            if ($inner instanceof Nil)
-                continue;
-
-            foreach ($inner->value as $v2){
-                $ret[] = $v2;
-            }
-        }
-
-        if (count($ret) === 0)
-            return $this::mzero();
-        else
-            return $this::fromArray($ret);
+        return $concat($this->map($f));
     }
 
     /**
@@ -50,21 +44,16 @@ class Cons extends \Laiz\Monad\DataList
         if ($m instanceof Nil)
             return $this;
 
-        return Cons::fromArray(array_merge($this->value, $m->value));
-    }
-
-    public static function fromArray(array $a)
-    {
-        if (count($a) === 0)
-            return Nil::getInstance();
-
-        $cons = new Cons($a);
-        $cons->value = $a;
-        return $cons;
+        return $this::fromArray(array_merge($this->value, $m->value));
     }
 
     public function toArray()
     {
         return $this->value;
+    }
+
+    public function map(callable $f)
+    {
+        return $this::fromArray(array_map($f, $this->value));
     }
 }

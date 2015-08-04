@@ -26,4 +26,14 @@ class Nil extends \Laiz\Monad\DataList
 
         return $m;
     }
+
+    public function map(callable $f)
+    {
+        return $this;
+    }
+
+    public function toArray()
+    {
+        return [];
+    }
 }
