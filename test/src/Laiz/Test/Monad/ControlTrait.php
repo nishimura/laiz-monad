@@ -24,7 +24,6 @@ trait ControlTrait
     /**
      * @depends testJoin
      * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage Assertion failed
      */
     public function testJoinException1(Context $c)
     {
@@ -35,7 +34,6 @@ trait ControlTrait
     /**
      * @depends testJoin
      * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage Assertion failed
      */
     public function testJoinException2(Context $c)
     {

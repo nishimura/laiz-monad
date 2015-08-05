@@ -4,9 +4,11 @@ namespace Laiz\Test\Monad;
 
 use Laiz\Monad\Context;
 use Laiz\Monad\DataListContext;
+use Laiz\Monad\MonadListContext;
 use Laiz\Monad\MaybeContext;
 use Laiz\Monad\Maybe\Just;
 use Laiz\Monad\DataList\Cons;
+use Laiz\Monad\MonadList;
 
 class Tree
 {
@@ -70,5 +72,16 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $ret = $this->searchTree($c, $f, $t);
 
         $this->assertEquals(new Just(3), $ret);
+    }
+
+    public function testTreeMonadList()
+    {
+        $c = new MonadListContext();
+        $f = function($a){ return $a % 2 == 1; };
+        $t = $this->getTree();
+
+        $ret = $this->searchTree($c, $f, $t);
+
+        $this->assertEquals([3,1], $ret->toArray());
     }
 }

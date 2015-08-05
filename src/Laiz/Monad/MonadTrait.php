@@ -11,7 +11,7 @@ trait MonadTrait
     public function bind(callable $f)
     {
         $ret = $this->bindInternal($f);
-        assert($ret instanceof self);
+        assert($ret instanceof self, 'bind callback must return monad instance');
         return $ret;
     }
 
