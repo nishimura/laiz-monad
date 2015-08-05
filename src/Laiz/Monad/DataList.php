@@ -4,6 +4,7 @@ namespace Laiz\Monad;
 
 abstract class DataList implements Monad, MonadPlus
 {
+    use MonadTrait;
     use DataListTrait;
 
     abstract public function map(callable $f);

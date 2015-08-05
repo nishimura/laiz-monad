@@ -9,9 +9,10 @@ class Nothing extends \Laiz\Monad\Maybe
     use \Laiz\Monad\SingletonTrait;
 
     /**
+     * @override
      * @return Laiz\Monad\Maybe
      */
-    public function bind(callable $f)
+    protected function bindInternal(callable $f)
     {
         return $this;
     }
@@ -40,9 +41,7 @@ class Nothing extends \Laiz\Monad\Maybe
      */
     public function mplus(MonadPlus $m)
     {
-        if (!($m instanceof \Laiz\Monad\Maybe))
-            $this->fail();
-
+        assert($m instanceof \Laiz\Monad\Maybe);
         return $m;
     }
 

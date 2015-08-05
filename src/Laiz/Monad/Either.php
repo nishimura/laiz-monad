@@ -4,6 +4,7 @@ namespace Laiz\Monad;
 
 abstract class Either implements Monad
 {
+    use MonadTrait;
     use EitherTrait;
 
     /**

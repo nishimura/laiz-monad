@@ -6,7 +6,6 @@ use Laiz\Monad\MonadPlus;
 
 class Just extends \Laiz\Monad\Maybe
 {
-    private $value;
     public function __construct($value)
     {
         if ($value === null)
@@ -15,9 +14,10 @@ class Just extends \Laiz\Monad\Maybe
     }
 
     /**
+     * @override
      * @return Laiz\Monad\Maybe
      */
-    public function bind(callable $f)
+    protected function bindInternal(callable $f)
     {
         return $f($this->fromJust());
     }
@@ -51,9 +51,7 @@ class Just extends \Laiz\Monad\Maybe
      */
     public function mplus(MonadPlus $m)
     {
-        if (!($m instanceof \Laiz\Monad\Maybe))
-            $this->fail();
-
+        assert($m instanceof \Laiz\Monad\Maybe);
         return $this;
     }
 

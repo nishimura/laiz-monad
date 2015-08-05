@@ -8,10 +8,15 @@ class Nil extends \Laiz\Monad\DataList
 {
     use \Laiz\Monad\SingletonTrait;
 
+    private function __construct()
+    {
+        $this->value = [];
+    }
+
     /**
      * @return Laiz\Monad\DataList
      */
-    public function bind(callable $f)
+    protected function bindInternal(callable $f)
     {
         return $this;
     }
@@ -21,8 +26,7 @@ class Nil extends \Laiz\Monad\DataList
      */
     public function mplus(MonadPlus $m)
     {
-        if (!($m instanceof \Laiz\Monad\DataList))
-            $this->fail();
+        assert($m instanceof \Laiz\Monad\DataList);
 
         return $m;
     }
@@ -34,6 +38,6 @@ class Nil extends \Laiz\Monad\DataList
 
     public function toArray()
     {
-        return [];
+        return $this->value;
     }
 }

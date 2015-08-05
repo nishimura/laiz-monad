@@ -4,7 +4,7 @@ namespace Laiz\Monad\Either;
 
 class Left extends \Laiz\Monad\Either
 {
-    public function bind(callable $f)
+    protected function bindInternal(callable $f)
     {
         return $this;
     }

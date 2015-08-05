@@ -6,26 +6,35 @@ use Laiz\Monad\MonadPlus;
 
 class Cons extends \Laiz\Monad\DataList
 {
-    protected $value;
     public function __construct($value)
     {
         if ($value === null)
             throw new \InvalidArgumentException('null is invalid');
 
-        $this->value = [$value];
+        if ($value instanceof \Laiz\Monad\Monad)
+            $this->value = $value;
+        else
+            $this->value = [$value];
     }
 
     /**
      * @return Laiz\Monad\DataList
      */
-    public function bind(callable $f)
+    protected function bindInternal(callable $f)
     {
         $foldl = function($f, $b, $a){
-            return array_reduce($a->toArray(), $f, $b);
+            if ($a instanceof \Laiz\Monad\DataList)
+                $a = $a->toArray();
+            return array_reduce($a, $f, $b);
         };
         $concat = function ($arr) use ($foldl){
             $f = function($carry, $item){
-                return self::fromArray(array_merge($carry->toArray(), $item->toArray()));
+                if ($carry instanceof \Laiz\Monad\DataList)
+                    $carry = $carry->toArray();
+                if ($item instanceof \Laiz\Monad\DataList)
+                    $item = $item->toArray();
+
+                return self::fromArray(array_merge($carry, $item));
             };
             return $foldl($f, Nil::getInstance(), $arr);
         };
@@ -38,8 +47,7 @@ class Cons extends \Laiz\Monad\DataList
      */
     public function mplus(MonadPlus $m)
     {
-        if (!($m instanceof \Laiz\Monad\DataList))
-            $this->fail();
+        assert($m instanceof \Laiz\Monad\DataList);
 
         if ($m instanceof Nil)
             return $this;
@@ -49,11 +57,17 @@ class Cons extends \Laiz\Monad\DataList
 
     public function toArray()
     {
-        return $this->value;
+        if ($this->value instanceof \Laiz\Monad\DataList)
+            return [$this->value];
+        else
+            return $this->value;
     }
 
     public function map(callable $f)
     {
-        return $this::fromArray(array_map($f, $this->value));
+        if ($this->value instanceof \Laiz\Monad\DataList)
+            return new self($this->value->map($f));
+        else
+            return self::fromArray(array_map($f, $this->value));
     }
 }

@@ -10,6 +10,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
 {
     use MonadTrait;
     use MonadPlusTrait;
+    use ControlTrait;
 
     /**
      * @override

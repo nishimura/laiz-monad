@@ -14,7 +14,7 @@ class Right extends \Laiz\Monad\Either
         parent::__construct($value);
     }
 
-    public function bind(callable $f)
+    protected function bindInternal(callable $f)
     {
         return $f($this->value);
     }

@@ -8,6 +8,7 @@ use Laiz\Monad\EitherContext;
 class EitherTest extends \PHPUnit_Framework_TestCase
 {
     use MonadTrait;
+    use ControlTrait;
 
     /**
      * @override
