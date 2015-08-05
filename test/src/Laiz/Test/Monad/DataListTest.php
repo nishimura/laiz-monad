@@ -5,7 +5,6 @@ namespace Laiz\Test\Monad;
 use Laiz\Monad\DataList;
 use Laiz\Monad\DataListContext;
 use Laiz\Monad\DataList\Cons;
-use Laiz\Monad\DataList\Nil;
 
 class DataListTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,5 +55,33 @@ class DataListTest extends \PHPUnit_Framework_TestCase
                                              [2, 4], [2, 5], [2, 6],
                                              [3, 4], [3, 5], [3, 6]]),
                             $ret);
+    }
+
+    public function testForeach()
+    {
+        $m = Cons::fromArray([1, 2, 3]);
+        $i = 1;
+        foreach ($m as $v){
+            $this->assertEquals($i, $v);
+            $i++;
+        }
+        $this->assertEquals(4, $i);
+
+        $mm = new Cons($m);
+        $x2 = function($a) { return Cons::ret($a * 2);};
+        $mm2 = new Cons($m->bind($x2));
+        $mm = $mm->mplus($mm2);
+        $i = 1;
+        $j = 1;
+        foreach ($mm as $vv){
+            $i = $j;
+            foreach ($vv as $v){
+                $this->assertEquals($i, $v);
+                $i += $j;
+            }
+            $j++;
+        }
+        $this->assertEquals(8, $i);
+        $this->assertEquals(3, $j);
     }
 }

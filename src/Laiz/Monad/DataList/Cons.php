@@ -52,7 +52,11 @@ class Cons extends \Laiz\Monad\DataList
         if ($m instanceof Nil)
             return $this;
 
-        return $this::fromArray(array_merge($this->value, $m->value));
+        if ($this->value instanceof \Laiz\Monad\DataList &&
+            $m->value  instanceof \Laiz\Monad\DataList)
+            return self::fromArray([$this->value, $m->value]);
+        else
+            return self::fromArray(array_merge($this->value, $m->value));
     }
 
     public function toArray()

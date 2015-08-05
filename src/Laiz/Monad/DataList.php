@@ -2,7 +2,8 @@
 
 namespace Laiz\Monad;
 
-abstract class DataList implements Monad, MonadPlus
+abstract class DataList implements Monad, MonadPlus,
+\IteratorAggregate // FIXME: bad impl (DataList <=> php array <=> Iterator)
 {
     use MonadTrait;
     use DataListTrait;
@@ -18,5 +19,13 @@ abstract class DataList implements Monad, MonadPlus
         $cons = new DataList\Cons($a);
         $cons->value = $a;
         return $cons;
+    }
+
+    public function getIterator()
+    {
+        if ($this->value instanceof DataList)
+            return $this->value;
+        else
+            return new \ArrayIterator($this->value);
     }
 }
