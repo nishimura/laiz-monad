@@ -4,11 +4,6 @@ namespace Laiz\Monad;
 
 trait EitherTrait
 {
-    /**
-     * @var mixed
-     */
-    protected $value;
-
     public static function ret($a)
     {
         if ($a === null)
