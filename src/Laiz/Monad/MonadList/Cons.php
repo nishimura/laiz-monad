@@ -28,12 +28,12 @@ class Cons extends \Laiz\Monad\MonadList
         $value = new \AppendIterator();
         $value->append($this->value);
         $value->append($m->value);
-        return new Cons($value);
+        return new static($value);
     }
 
     public function map(callable $f)
     {
-        return new Cons(new MapIterator($this->value, $f));
+        return new static(new MapIterator($this->value, $f));
     }
 }
 
