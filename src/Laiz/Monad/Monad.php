@@ -2,7 +2,7 @@
 
 namespace Laiz\Monad;
 
-interface Monad
+interface Monad extends \Laiz\Func\Applicative
 {
     /**
      * @param callable $f (a -> m b)

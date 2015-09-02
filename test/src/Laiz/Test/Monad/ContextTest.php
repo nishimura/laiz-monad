@@ -2,12 +2,10 @@
 
 namespace Laiz\Test\Monad;
 
+use Laiz\Monad\Monad;
 use Laiz\Monad\Context;
-use Laiz\Monad\DataListContext;
-use Laiz\Monad\MonadListContext;
-use Laiz\Monad\MaybeContext;
+use Laiz\Monad\Maybe;
 use Laiz\Monad\Maybe\Just;
-use Laiz\Monad\DataList\Cons;
 use Laiz\Monad\MonadList;
 
 class Tree
@@ -30,18 +28,18 @@ class EmptyTree extends Tree
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
     // MonadPlus m => (Int -> Bool) -> Tree -> m Int
-    private function searchTree(Context $m, callable $f, Tree $tree)
+    private function searchTree(Monad $m, callable $f, Tree $tree)
     {
         if ($tree instanceof EmptyTree)
-            return $m->mzero();
+            return $m::mzero();
 
         if ($f($tree->value))
             return $this->searchTree($m, $f, $tree->left)
-                        ->mplus($m->ret($tree->value))
-                        ->mplus($this->searchTree($m, $f, $tree->right));
+                ->mplus($m::ret($tree->value))
+                ->mplus($this->searchTree($m, $f, $tree->right));
         else
             return $this->searchTree($m, $f, $tree->left)
-                        ->mplus($this->searchTree($m, $f, $tree->right));
+                ->mplus($this->searchTree($m, $f, $tree->right));
     }
 
     private function getTree()
@@ -52,20 +50,9 @@ class ContextTest extends \PHPUnit_Framework_TestCase
                         new Tree(1, $empty, $empty));
     }
 
-    public function testTreeDataList()
-    {
-        $c = new DataListContext();
-        $f = function($a){ return $a % 2 == 1; };
-        $t = $this->getTree();
-
-        $ret = $this->searchTree($c, $f, $t);
-
-        $this->assertEquals(Cons::fromArray([3,1]), $ret);
-    }
-
     public function testTreeMaybe()
     {
-        $c = new MaybeContext();
+        $c = Maybe::mzero();
         $f = function($a){ return $a % 2 == 1; };
         $t = $this->getTree();
 
@@ -76,7 +63,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testTreeMonadList()
     {
-        $c = new MonadListContext();
+        $c = MonadList::mzero();
         $f = function($a){ return $a % 2 == 1; };
         $t = $this->getTree();
 

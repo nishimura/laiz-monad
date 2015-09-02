@@ -44,12 +44,4 @@ class Nothing extends \Laiz\Monad\Maybe
         assert($m instanceof \Laiz\Monad\Maybe);
         return $m;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return '';
-    }
 }

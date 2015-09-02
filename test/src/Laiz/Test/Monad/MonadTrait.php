@@ -2,7 +2,7 @@
 
 namespace Laiz\Test\Monad;
 
-use Laiz\Monad;
+use Laiz\Monad\Monad;
 use Laiz\Monad\Context;
 
 trait MonadTrait
@@ -15,7 +15,7 @@ trait MonadTrait
     public function testMonadContext()
     {
         $c = $this->getMonadContext();
-        $this->assertInstanceOf('Laiz\Monad\Context', $c);
+        $this->assertInstanceOf('Laiz\Monad\Monad', $c);
         return $c;
     }
 
@@ -23,10 +23,10 @@ trait MonadTrait
      * return a >>= f == f a
      * @depends testMonadContext
      */
-    public function testLaw1(Context $c)
+    public function testLaw1(Monad $c)
     {
-        $f = function($a) use ($c) { return $c->ret($a * 3); };
-        $l = $c->ret(5)->bind($f);
+        $f = function($a) use ($c) { return $c::ret($a * 3); };
+        $l = $c::ret(5)->bind($f);
         $r = $f(5);
 
         $this->assertEquals($l, $r);
@@ -38,10 +38,10 @@ trait MonadTrait
      * m >>= return == m
      * @depends testLaw1
      */
-    public function testLaw2(Context $c)
+    public function testLaw2(Monad $c)
     {
-        $m = $c->ret(5);
-        $l = $m->bind(function($a) use ($c){ return $c->ret($a); });
+        $m = $c::ret(5);
+        $l = $m->bind(function($a) use ($c){ return $c::ret($a); });
 
         $this->assertEquals($l, $m);
 
@@ -52,11 +52,11 @@ trait MonadTrait
      * (m >>= f) >>= g == m >>= (\x -> f x >>= g)
      * @depends testLaw2
      */
-    public function testLaw3(Context $c)
+    public function testLaw3(Monad $c)
     {
-        $f = function($a) use ($c) { return $c->ret($a * 3); };
-        $g = function($a) use ($c) { return $c->ret($a * 5); };
-        $m = $c->ret(7);
+        $f = function($a) use ($c) { return $c::ret($a * 3); };
+        $g = function($a) use ($c) { return $c::ret($a * 5); };
+        $m = $c::ret(7);
 
         $l = $m->bind($f)->bind($g);
         $r = $m->bind(function($a) use ($f, $g){ return $f($a)->bind($g); });

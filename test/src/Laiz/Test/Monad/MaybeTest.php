@@ -3,7 +3,6 @@
 namespace Laiz\Test\Monad;
 
 use Laiz\Monad\Maybe;
-use Laiz\Monad\MaybeContext;
 use Laiz\Monad\Maybe\Just;
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +16,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
      */
     public function getMonadContext()
     {
-        return new MaybeContext();
+        return Maybe::mzero();
     }
 
     /**

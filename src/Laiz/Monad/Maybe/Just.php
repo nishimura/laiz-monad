@@ -54,12 +54,4 @@ class Just extends \Laiz\Monad\Maybe
         assert($m instanceof \Laiz\Monad\Maybe);
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string)$this->fromJust();
-    }
 }

@@ -19,12 +19,4 @@ trait EitherTrait
     {
         return new Either\Left($a);
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string)$this->value;
-    }
 }

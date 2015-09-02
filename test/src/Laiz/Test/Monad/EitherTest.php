@@ -3,7 +3,6 @@
 namespace Laiz\Test\Monad;
 
 use Laiz\Monad\Either;
-use Laiz\Monad\EitherContext;
 
 class EitherTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +14,7 @@ class EitherTest extends \PHPUnit_Framework_TestCase
      */
     public function getMonadContext()
     {
-        return new EitherContext();
+        return Either::fail('');
     }
 
     public function testChain1()
@@ -27,15 +26,12 @@ class EitherTest extends \PHPUnit_Framework_TestCase
 
         $a = $c->ret(7);
         $this->assertEquals($a, $a->bind($f)->bind($g));
-        $this->assertSame('7', (string)$a->bind($f)->bind($g));
 
         $a = $c->ret(3);
         $this->assertEquals($c->fail('under 5'), $a->bind($f)->bind($g));
-        $this->assertSame('under 5', (string)$a->bind($f)->bind($g));
 
         $a = $c->ret(11);
         $this->assertEquals($c->fail('over 10'), $a->bind($f)->bind($g));
-        $this->assertSame('over 10', (string)$a->bind($f)->bind($g));
     }
 
     /**

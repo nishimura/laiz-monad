@@ -10,7 +10,8 @@
   }],
 
   "autoload": {
-    "psr-0": { "Laiz\\Monad": "src/" }
+    "psr-0": { "Laiz\\Monad": "src/", "Laiz\\Func": "src/" },
+    "files": ["lib/func.php"]
   },
   "autoload-dev": {
     "psr-0": { "Laiz\\Test\\Monad": "test/src/" }

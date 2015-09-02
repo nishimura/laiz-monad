@@ -2,8 +2,7 @@
 
 namespace Laiz\Test\Monad;
 
-use Laiz\Monad;
-use Laiz\Monad\Context;
+use Laiz\Monad\Monad;
 
 trait MonadPlusTrait
 {
@@ -11,9 +10,9 @@ trait MonadPlusTrait
      * mzero >>= f == mzero
      * @depends testLaw3
      */
-    public function testLawPlus1(Context $c)
+    public function testLawPlus1(Monad $c)
     {
-        $z = $c->mzero();
+        $z = $c::mzero();
         $f = function($a) use ($c) { return $c->ret($a * 3); };
 
         $this->assertEquals($z, $z->bind($f));
@@ -25,9 +24,9 @@ trait MonadPlusTrait
      * m >>= (\x -> mzero) == mzero
      * @depends testLawPlus1
      */
-    public function testLawPlus2(Context $c)
+    public function testLawPlus2(Monad $c)
     {
-        $m = $c->ret(5);
+        $m = $c::ret(5);
         $f = function($a) use ($c) { return $c->mzero(); };
 
         $this->assertEquals($c->mzero(), $m->bind($f));
@@ -39,10 +38,10 @@ trait MonadPlusTrait
      * mzero `mplus` m == m
      * @depends testLawPlus2
      */
-    public function testLawPlus3(Context $c)
+    public function testLawPlus3(Monad $c)
     {
-        $m = $c->ret(5);
-        $z = $c->mzero();
+        $m = $c::ret(5);
+        $z = $c::mzero();
 
         $this->assertEquals($m, $z->mplus($m));
 
@@ -53,10 +52,10 @@ trait MonadPlusTrait
      * m `mplus` mzero == m
      * @depends testLawPlus3
      */
-    public function testLawPlus4(Context $c)
+    public function testLawPlus4(Monad $c)
     {
-        $m = $c->ret(5);
-        $z = $c->mzero();
+        $m = $c::ret(5);
+        $z = $c::mzero();
 
         $this->assertEquals($m, $m->mplus($z));
 

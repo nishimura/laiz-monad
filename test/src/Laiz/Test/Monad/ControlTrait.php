@@ -2,8 +2,7 @@
 
 namespace Laiz\Test\Monad;
 
-use Laiz\Monad;
-use Laiz\Monad\Context;
+use Laiz\Monad\Monad;
 
 trait ControlTrait
 {
@@ -11,10 +10,10 @@ trait ControlTrait
      * (Monad m) => m (m a) -> m a
      * @depends testMonadContext
      */
-    public function testJoin(Context $c)
+    public function testJoin(Monad $c)
     {
-        $ma = $c->ret(2);
-        $mma = $c->ret($ma);
+        $ma = $c::ret(2);
+        $mma = $c::ret($ma);
 
         $this->assertEquals($ma, $mma->join());
 
@@ -25,9 +24,9 @@ trait ControlTrait
      * @depends testJoin
      * @expectedException PHPUnit_Framework_Error
      */
-    public function testJoinException1(Context $c)
+    public function testJoinException1(Monad $c)
     {
-        $ma = $c->ret(2);
+        $ma = $c::ret(2);
         $ma->join();
     }
 
@@ -35,9 +34,9 @@ trait ControlTrait
      * @depends testJoin
      * @expectedException PHPUnit_Framework_Error
      */
-    public function testJoinException2(Context $c)
+    public function testJoinException2(Monad $c)
     {
-        $ma = $c->fail();
+        $ma = $c::fail();
         $ma->join();
     }
 }

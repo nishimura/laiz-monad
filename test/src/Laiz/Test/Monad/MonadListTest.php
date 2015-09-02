@@ -3,7 +3,6 @@
 namespace Laiz\Test\Monad;
 
 use Laiz\Monad\MonadList;
-use Laiz\Monad\MonadListContext;
 use Laiz\Monad\MonadList\Cons;
 
 class MonadListTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +16,7 @@ class MonadListTest extends \PHPUnit_Framework_TestCase
      */
     public function getMonadContext()
     {
-        return new MonadListContext();
+        return MonadList::mzero();
     }
 
     /**
