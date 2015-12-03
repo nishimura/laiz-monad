@@ -84,6 +84,22 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Just(7), $a);
 
         $m2 = $c::ret(2);
-        $this->assertEquals(new Just(5), $m2->ap($mf));
+        $this->assertEquals(new Just(5), Func\ap($mf, $m2));
+    }
+
+    public function testFuncMaybe()
+    {
+        $c = $this->getMonadContext();
+        $z = $c::mzero();
+        $m = $c::ret(2);
+
+        $f = function ($a) { return $a * 3; };
+
+        $this->assertEquals(5, Func\maybe(5, $f, $z));
+        $this->assertEquals(6, Func\maybe(5, $f, $m));
+
+        $fromMaybe = Func\fromMaybe(5);
+        $this->assertEquals(5, $fromMaybe($z));
+        $this->assertEquals(2, $fromMaybe($m));
     }
 }
