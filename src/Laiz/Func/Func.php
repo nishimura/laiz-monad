@@ -22,11 +22,10 @@ class Func extends Curry implements Functor, Applicative
     }
 
     // Applicative
-    public function ap(Applicative $f, Applicative $a)
+    public function ap(Applicative $f)
     {
         assert($f instanceof static);
-        assert($a instanceof static);
 
-        return $this->fmap($this->value);
+        return $this->fmap($f);
     }
 }
