@@ -30,11 +30,13 @@ trait MonadTrait
     }
 
     // Applicative
-    public function ap(Applicative $f)
+    public function ap(Applicative $mf)
     {
-        assert($f instanceof static);
+        assert($mf instanceof static);
 
-        return $this->fmap($f);
+        return $mf->bind(function($f){
+            return $this->fmap($f);
+        });
     }
 
     abstract protected function bindInternal(callable $f);
