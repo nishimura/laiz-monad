@@ -5,7 +5,6 @@ namespace Laiz\Monad;
 abstract class Either implements Monad
 {
     use MonadTrait;
-    use EitherTrait;
 
     /**
      * @param mixed
@@ -14,4 +13,21 @@ abstract class Either implements Monad
     {
         $this->value = $value;
     }
+
+    public static function ret($a)
+    {
+        if ($a === null)
+            throw new \InvalidArgumentException('null is invalid');
+
+        return new Either\Right($a);
+    }
+
+    /**
+     * @param $a string
+     */
+    public static function fail($a = null)
+    {
+        return new Either\Left($a);
+    }
+
 }
