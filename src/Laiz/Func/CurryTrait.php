@@ -55,7 +55,7 @@ trait CurryTrait
     /*
      * alias of __invoke
      */
-    public function call()
+    public function apply()
     {
         return call_user_func_array($this, func_get_args());
     }

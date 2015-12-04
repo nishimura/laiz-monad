@@ -17,7 +17,7 @@ class FuncTest extends \PHPUnit_Framework_TestCase
         $left = Func\fmap($id);
         $right = $id;
 
-        $this->assertEquals($left($a)->call(3), $right($a)->call(3));
+        $this->assertEquals($left($a)->apply(3), $right($a)->apply(3));
     }
 
     /**
@@ -33,6 +33,6 @@ class FuncTest extends \PHPUnit_Framework_TestCase
 
         $a = Func\f(function($a){ return $a + 3; });
 
-        $this->assertEquals($left($a)->call(17), $right($a)->call(17));
+        $this->assertEquals($left($a)->apply(17), $right($a)->apply(17));
     }
 }

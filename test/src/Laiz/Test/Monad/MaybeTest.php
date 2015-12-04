@@ -73,7 +73,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         $m1 = $c::ret(3);
         $f1 = function($a){ return $a + 1; };
         $this->assertEquals(new Just(4), $m1->fmap($f1));
-        $this->assertEquals(new Just(4), Func\fmap($f1)->call($m1));
+        $this->assertEquals(new Just(4), Func\fmap($f1)->apply($m1));
 
         $f2 = Func\f(function($a, $b){ return $a + $b; });
         $mf = $m1->fmap($f2);
