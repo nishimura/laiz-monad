@@ -4,6 +4,8 @@ namespace Laiz\Func;
 
 trait CurryTrait
 {
+    protected $value;
+
     public static function curry(callable $f)
     {
         $ref = new \ReflectionFunction($f);
