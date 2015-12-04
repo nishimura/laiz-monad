@@ -76,8 +76,6 @@ class EitherTest extends \PHPUnit_Framework_TestCase
 
         $either = Func\either($f, $g);
         $this->assertEquals(['error1', 'error2'], $either($left));
-
-        $ret = $right->either($f, $g);
         $this->assertEquals(16, $either($right));
     }
 }
