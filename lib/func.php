@@ -20,13 +20,15 @@ function id()
     });
 }
 
-function fmap(callable $f = null)
+function fmap(callable $f = null, Functor $a = null)
 {
     $ret = f(function(callable $f, Functor $a){
         return $a->fmap($f);
     });
     if ($f !== null)
         $ret = $ret($f);
+    if ($a !== null)
+        $ret = $ret($a);
     return $ret;
 }
 
@@ -64,6 +66,40 @@ function fromMaybe($b = null, Monad\Maybe $a = null)
     });
     if ($b !== null)
         $ret = $ret($b);
+    if ($a !== null)
+        $ret = $ret($a);
+    return $ret;
+}
+
+function Just($a)
+{
+    return new Monad\Maybe\Just($a);
+}
+
+function Nothing()
+{
+    return Monad\Maybe\Nothing::getInstance();
+}
+
+function Left($a)
+{
+    return new Monad\Either\Left($a);
+}
+
+function Right($a)
+{
+    return new Monad\Either\Right($a);
+}
+
+function either(callable $f = null, callable $g = null, Monad\Either $a = null)
+{
+    $ret = f(function(callable $f, callable $g, Monad\Either $a){
+        return $a->either($f, $g);
+    });
+    if ($f !== null)
+        $ret = $ret($f);
+    if ($g !== null)
+        $ret = $ret($g);
     if ($a !== null)
         $ret = $ret($a);
     return $ret;

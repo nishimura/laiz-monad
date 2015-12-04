@@ -89,9 +89,8 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
 
     public function testFuncMaybe()
     {
-        $c = $this->getMonadContext();
-        $z = $c::mzero();
-        $m = $c::ret(2);
+        $z = Func\Nothing();
+        $m = Func\Just(2);
 
         $f = function ($a) { return $a * 3; };
 
