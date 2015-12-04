@@ -25,7 +25,7 @@ class MonadListTest extends \PHPUnit_Framework_TestCase
     public function testNull()
     {
         $c = $this->getMonadContext();
-        $z = $c->ret(null);
+        $z = $c::ret(null);
     }
 
     public function testMplus()
@@ -46,7 +46,7 @@ class MonadListTest extends \PHPUnit_Framework_TestCase
 
         $ret = $m1->bind(function($a) use($c, $m2){
             return $m2->bind(function($b) use($c, $a){
-                return $c->ret([$a, $b]);
+                return $c::ret([$a, $b]);
             });
         });
 
@@ -54,6 +54,33 @@ class MonadListTest extends \PHPUnit_Framework_TestCase
                              [2, 4], [2, 5], [2, 6],
                              [3, 4], [3, 5], [3, 6]],
                             $ret->toArray());
+    }
+
+    public function testFmap()
+    {
+        $c = $this->getMonadContext();
+        $m1 = MonadList::cast([1, 2, 3]);
+        $m2 = MonadList::cast([4, 5, 6]);
+
+        // use fmap & bind in MonadTrait
+        $ret = $m1->fmap(function($a) use($c, $m2){
+            return $m2->fmap(function($b) use($c, $a){
+                return [$a, $b];
+            });
+        });
+
+        $expected = [[[1, 4], [1, 5], [1, 6]],
+                    [[2, 4], [2, 5], [2, 6]],
+                    [[3, 4], [3, 5], [3, 6]]];
+        $this->assertEquals($expected, $ret->toArray());
+
+        // use map & MapIterator in MonadList\Cons
+        $ret = $m1->map(function($a) use($c, $m2){
+            return $m2->map(function($b) use($c, $a){
+                return [$a, $b];
+            });
+        });
+        $this->assertEquals($expected, $ret->toArray());
     }
 
     public function testForeach()
