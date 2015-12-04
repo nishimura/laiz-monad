@@ -4,9 +4,9 @@ namespace Laiz\Func;
 
 class Func extends Curry implements Functor, Applicative
 {
-    public function __construct(callable $f, $args = [])
+    public function __construct(callable $f)
     {
-        $this->value = static::curry($f, $args);
+        $this->value = static::curry($f);
     }
 
     // Functor
