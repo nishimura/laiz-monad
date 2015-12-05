@@ -33,7 +33,7 @@ class Func extends Curry implements Monad\Monad
         return $this->fmap($f);
     }
 
-    // ret
+    // Monad
     public static function ret($value)
     {
         // const
@@ -58,6 +58,5 @@ class Func extends Curry implements Monad\Monad
                 $f = new self($f);
             return $f($this($a), $a);
         });
-        return $f($this->fromJust());
     }
 }
