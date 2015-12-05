@@ -20,15 +20,15 @@ function id()
     });
 }
 
-function fmap(callable $f = null, Functor $a = null)
+function fmap(Functor $a = null, callable $f = null)
 {
-    $ret = f(function(callable $f, Functor $a){
+    $ret = f(function(Functor $a, callable $f){
         return $a->fmap($f);
     });
-    if ($f !== null)
-        $ret = $ret($f);
     if ($a !== null)
         $ret = $ret($a);
+    if ($f !== null)
+        $ret = $ret($f);
     return $ret;
 }
 

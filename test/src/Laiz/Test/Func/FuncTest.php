@@ -25,14 +25,15 @@ class FuncTest extends \PHPUnit_Framework_TestCase
      */
     public function testLaw2()
     {
-        $f = Func\f(function($a){ return $a + 7; });
-        $g = Func\f(function($a){ return $a + 11; });
+        $f = Func\f(function($a){ return "ret $a"; });
+        $g = Func\f(function($a){ return $a * 3; });
 
         $left = Func\fmap($f->compose($g));
         $right = Func\fmap($f)->compose(Func\fmap($g));
 
-        $a = Func\f(function($a){ return $a + 3; });
+        $a = Func\f(function($a){ return $a - 3; });
 
-        $this->assertEquals($left($a)->apply(17), $right($a)->apply(17));
+        $this->assertEquals('ret 24', $left($a, 11));
+        $this->assertEquals($left($a)->apply(11), $right($a)->apply(11));
     }
 }
