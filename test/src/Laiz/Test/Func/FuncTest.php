@@ -6,10 +6,17 @@ use Laiz\Func;
 
 class FuncTest extends \PHPUnit_Framework_TestCase
 {
+    use \Laiz\Test\Monad\MonadTrait;
+
+    protected function getMonadContext()
+    {
+        return Func\Func::ret(1);
+    }
+
     /**
      * fmap id == id
      */
-    public function testLaw1()
+    public function testFuncLaw1()
     {
         $id = Func\id();
         $a = Func\f(function($a){ return $a + 1; });
@@ -23,7 +30,7 @@ class FuncTest extends \PHPUnit_Framework_TestCase
     /**
      * fmap (f . g) == fmap f . fmap g
      */
-    public function testLaw2()
+    public function testFuncLaw2()
     {
         $f = Func\f(function($a){ return "ret $a"; });
         $g = Func\f(function($a){ return $a * 3; });
