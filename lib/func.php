@@ -20,6 +20,18 @@ function id()
     });
 }
 
+function cnst($a = null, $b = null)
+{
+    $ret = f(function($a, $b){
+        return $a;
+    });
+    if ($a !== null)
+        $ret = $ret($a);
+    if ($b !== null)
+        $ret = $ret($b);
+    return $ret;
+}
+
 function fmap(Functor $a = null, callable $f = null)
 {
     $ret = f(function(Functor $a, callable $f){

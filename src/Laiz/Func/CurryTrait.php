@@ -62,12 +62,17 @@ trait CurryTrait
         return call_user_func_array($this, func_get_args());
     }
 
-    public function compose(callable $f)
+    public function compose(callable $f = null, $a = null)
     {
-        return new static(function ($a) use ($f){
+        $ret = new static(function (callable $f, $a) use ($f){
             if (!($f instanceof static))
                 $f = new static($f);
             return call_user_func($this, $f($a));
         });
+        if ($f !== null)
+            $ret = $ret($f);
+        if ($a !== null)
+            $ret = $ret($a);
+        return $ret;
     }
 }
