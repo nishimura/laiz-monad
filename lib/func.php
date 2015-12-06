@@ -3,6 +3,7 @@
 use Laiz\Func\Curry;
 use Laiz\Func\Functor;
 use Laiz\Func\Applicative;
+use Laiz\Monad\Monad;
 use Laiz\Monad\Func;
 use Laiz\Monad\Maybe;
 use Laiz\Monad\Either;
@@ -116,5 +117,37 @@ function either(callable $f = null, callable $g = null, Either $a = null)
         $ret = $ret($g);
     if ($a !== null)
         $ret = $ret($a);
+    return $ret;
+}
+
+function liftM(callable $f = null, Monad $ma = null)
+{
+    $ret = f(function(callable $f, Monad $ma){
+        return $ma->bind(function($a) use ($f, $ma){
+            return $ma::ret($f($a));
+        });
+    });
+    if ($f !== null)
+        $ret = $ret($f);
+    if ($ma !== null)
+        $ret = $ret($ma);
+    return $ret;
+}
+
+function liftM2(callable $f = null, Monad $ma = null, Monad $mb = null)
+{
+    $ret = f(function(callable $f, Monad $ma, Monad $mb){
+        return $ma->bind(function($a) use ($f, $mb){
+            return $mb->bind(function($b) use ($a, $f, $mb){
+                return $mb::ret($f($a, $b));
+            });
+        });
+    });
+    if ($f !== null)
+        $ret = $ret($f);
+    if ($ma !== null)
+        $ret = $ret($ma);
+    if ($mb !== null)
+        $ret = $ret($mb);
     return $ret;
 }
