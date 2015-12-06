@@ -1,8 +1,10 @@
 <?php
 
-namespace Laiz\Test\Func;
+namespace Laiz\Test\Monad;
 
-use Laiz\Func;
+use Laiz\Monad\Func;
+
+Func::importUtil();
 
 class FuncTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,7 +12,7 @@ class FuncTest extends \PHPUnit_Framework_TestCase
 
     protected function getMonadContext()
     {
-        return Func\Func::ret(1);
+        return Func::ret(1);
     }
 
     /**
@@ -18,10 +20,10 @@ class FuncTest extends \PHPUnit_Framework_TestCase
      */
     public function testFuncLaw1()
     {
-        $id = Func\id();
-        $a = Func\f(function($a){ return $a + 1; });
+        $id = id();
+        $a = f(function($a){ return $a + 1; });
 
-        $left = Func\fmap($id);
+        $left = fmap($id);
         $right = $id;
 
         $this->assertEquals($left($a)->apply(3), $right($a)->apply(3));
@@ -32,13 +34,13 @@ class FuncTest extends \PHPUnit_Framework_TestCase
      */
     public function testFuncLaw2()
     {
-        $f = Func\f(function($a){ return "ret $a"; });
-        $g = Func\f(function($a){ return $a * 3; });
+        $f = f(function($a){ return "ret $a"; });
+        $g = f(function($a){ return $a * 3; });
 
-        $left = Func\fmap($f->compose($g));
-        $right = Func\fmap($f)->compose(Func\fmap($g));
+        $left = fmap($f->compose($g));
+        $right = fmap($f)->compose(fmap($g));
 
-        $a = Func\f(function($a){ return $a - 3; });
+        $a = f(function($a){ return $a - 3; });
 
         $this->assertEquals('ret 24', $left($a, 11));
         $this->assertEquals($left($a)->apply(11), $right($a)->apply(11));

@@ -1,11 +1,13 @@
 <?php
 
-namespace Laiz\Func;
+use Laiz\Func\Curry;
+use Laiz\Func\Functor;
+use Laiz\Func\Applicative;
+use Laiz\Monad\Func;
+use Laiz\Monad\Maybe;
+use Laiz\Monad\Either;
 
-use Laiz\Monad;
-
-function curry(callable $f)
-{
+function c(callable $f){
     return new Curry($f);
 }
 
@@ -57,9 +59,9 @@ function ap(Applicative $f = null, Applicative $a = null)
 }
 
 
-function maybe($b = null, callable $f = null, Monad\Maybe $a = null)
+function maybe($b = null, callable $f = null, Maybe $a = null)
 {
-    $ret = f(function($b, callable $f, Monad\Maybe $a){
+    $ret = f(function($b, callable $f, Maybe $a){
         return $a->maybe($b, $f);
     });
     if ($b !== null)
@@ -71,9 +73,9 @@ function maybe($b = null, callable $f = null, Monad\Maybe $a = null)
     return $ret;
 }
 
-function fromMaybe($b = null, Monad\Maybe $a = null)
+function fromMaybe($b = null, Maybe $a = null)
 {
-    $ret = f(function($b, Monad\Maybe $a){
+    $ret = f(function($b, Maybe $a){
         return $a->fromMaybe($b);
     });
     if ($b !== null)
@@ -85,27 +87,27 @@ function fromMaybe($b = null, Monad\Maybe $a = null)
 
 function Just($a)
 {
-    return new Monad\Maybe\Just($a);
+    return new Maybe\Just($a);
 }
 
 function Nothing()
 {
-    return Monad\Maybe\Nothing::getInstance();
+    return Maybe\Nothing::getInstance();
 }
 
 function Left($a)
 {
-    return new Monad\Either\Left($a);
+    return new Either\Left($a);
 }
 
 function Right($a)
 {
-    return new Monad\Either\Right($a);
+    return new Either\Right($a);
 }
 
-function either(callable $f = null, callable $g = null, Monad\Either $a = null)
+function either(callable $f = null, callable $g = null, Either $a = null)
 {
-    $ret = f(function(callable $f, callable $g, Monad\Either $a){
+    $ret = f(function(callable $f, callable $g, Either $a){
         return $a->either($f, $g);
     });
     if ($f !== null)

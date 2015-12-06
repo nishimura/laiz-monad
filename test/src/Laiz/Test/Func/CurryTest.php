@@ -2,7 +2,7 @@
 
 namespace Laiz\Test\Func;
 
-use Laiz\Func;
+\Laiz\Monad\Func::importUtil();
 
 class CurryTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class CurryTest extends \PHPUnit_Framework_TestCase
      */
     public function testNull()
     {
-        $f = Func\curry();
+        $f = c();
     }
 
     /**
@@ -19,25 +19,25 @@ class CurryTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalid()
     {
-        $f = Func\curry(1);
+        $f = c(1);
     }
 
     public function testInstance()
     {
-        $f = Func\curry(function($a){return $a;});
+        $f = c(function($a){return $a;});
         $this->assertInstanceOf('Laiz\Func\Curry', $f);
     }
 
     public function testCurry()
     {
-        $f = Func\curry(function($a){ return $a + 1; });
+        $f = c(function($a){ return $a + 1; });
         $this->assertEquals($f(3), 4);
 
-        $f1 = Func\curry(function($a, $b){ return $a + $b + 1; });
+        $f1 = c(function($a, $b){ return $a + $b + 1; });
         $f2 = $f1(2);
         $this->assertEquals($f2(3), 6);
 
-        $f1 = Func\curry(function($a, $b, $c){ return $a + $b + $c + 1; });
+        $f1 = c(function($a, $b, $c){ return $a + $b + $c + 1; });
         $f2 = $f1(2);
         $f3 = $f2(3);
         $this->assertEquals($f3(4), 10);
@@ -45,7 +45,7 @@ class CurryTest extends \PHPUnit_Framework_TestCase
 
     public function testInvoke()
     {
-        $f = Func\curry(function($a, $b, $c){
+        $f = c(function($a, $b, $c){
             return [$a, $b, $c];
         });
         $this->assertInstanceOf('Laiz\Func\Curry', $f);

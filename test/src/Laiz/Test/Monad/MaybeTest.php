@@ -4,7 +4,8 @@ namespace Laiz\Test\Monad;
 
 use Laiz\Monad\Maybe;
 use Laiz\Monad\Maybe\Just;
-use Laiz\Func;
+
+\Laiz\Monad\Func::importUtil();
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,9 +74,9 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         $m1 = $c::ret(3);
         $f1 = function($a){ return $a + 1; };
         $this->assertEquals(new Just(4), $m1->fmap($f1));
-        $this->assertEquals(new Just(4), Func\fmap($m1, $f1));
+        $this->assertEquals(new Just(4), fmap($m1, $f1));
 
-        $f2 = Func\f(function($a, $b){ return $a + $b; });
+        $f2 = f(function($a, $b){ return $a + $b; });
         $mf = $m1->fmap($f2);
         $this->assertInstanceOf('Laiz\Monad\Maybe', $mf);
         $a = $mf->fmap(function($f){
@@ -84,20 +85,20 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Just(7), $a);
 
         $m2 = $c::ret(2);
-        $this->assertEquals(new Just(5), Func\ap($mf, $m2));
+        $this->assertEquals(new Just(5), ap($mf, $m2));
     }
 
     public function testFuncMaybe()
     {
-        $z = Func\Nothing();
-        $m = Func\Just(2);
+        $z = Nothing();
+        $m = Just(2);
 
         $f = function ($a) { return $a * 3; };
 
-        $this->assertEquals(5, Func\maybe(5, $f, $z));
-        $this->assertEquals(6, Func\maybe(5, $f, $m));
+        $this->assertEquals(5, maybe(5, $f, $z));
+        $this->assertEquals(6, maybe(5, $f, $m));
 
-        $fromMaybe = Func\fromMaybe(5);
+        $fromMaybe = fromMaybe(5);
         $this->assertEquals(5, $fromMaybe($z));
         $this->assertEquals(2, $fromMaybe($m));
     }

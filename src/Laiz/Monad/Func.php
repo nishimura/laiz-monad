@@ -1,12 +1,12 @@
 <?php
 
-namespace Laiz\Func;
+namespace Laiz\Monad;
 
-use Laiz\Monad;
+use Laiz\Func as F;
 
-class Func extends Curry implements Monad\Monad
+class Func extends F\Curry implements Monad
 {
-    use Monad\MonadTrait;
+    use MonadTrait;
 
     public function __construct(callable $f)
     {
@@ -26,7 +26,7 @@ class Func extends Curry implements Monad\Monad
     }
 
     // Applicative
-    public function ap(Applicative $f)
+    public function ap(F\Applicative $f)
     {
         assert($f instanceof static);
 
@@ -58,5 +58,10 @@ class Func extends Curry implements Monad\Monad
                 $f = new self($f);
             return $f($this($a), $a);
         });
+    }
+
+    public static function importUtil()
+    {
+        require_once dirname(dirname(dirname(__DIR__))) . '/lib/func.php';
     }
 }

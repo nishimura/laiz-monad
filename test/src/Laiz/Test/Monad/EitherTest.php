@@ -3,7 +3,8 @@
 namespace Laiz\Test\Monad;
 
 use Laiz\Monad\Either;
-use Laiz\Func;
+
+\Laiz\Monad\Func::importUtil();
 
 class EitherTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,16 +66,16 @@ class EitherTest extends \PHPUnit_Framework_TestCase
 
     public function testFunc()
     {
-        $left = Func\Left(['error1']);
+        $left = Left(['error1']);
         $this->assertInstanceOf('Laiz\Monad\Either\Left', $left);
 
-        $right = Func\Right(5);
+        $right = Right(5);
         $this->assertInstanceOf('Laiz\Monad\Either\Right', $right);
 
         $f = function($left){ return array_merge($left,['error2']); };
         $g = function($right){ return $right + 11; };
 
-        $either = Func\either($f, $g);
+        $either = either($f, $g);
         $this->assertEquals(['error1', 'error2'], $either($left));
         $this->assertEquals(16, $either($right));
     }
