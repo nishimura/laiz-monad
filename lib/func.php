@@ -151,3 +151,16 @@ function liftM2(callable $f = null, Monad $ma = null, Monad $mb = null)
         $ret = $ret($mb);
     return $ret;
 }
+
+function flip(callable $f = null, $a = null, $b = null){
+    $ret = f(function(callable $f, $a, $b){
+        return $f($b, $a);
+    });
+    if ($f !== null)
+        $ret = $ret($f);
+    if ($a !== null)
+        $ret = $ret($a);
+    if ($b !== null)
+        $ret = $ret($b);
+    return $ret;
+}
