@@ -13,7 +13,12 @@ function c(callable $f){
 }
 
 function f(callable $f){
-    return new Func($f);
+    $args = func_get_args();
+    $ret = new Func($f);
+    array_shift($args);
+    if ($args)
+        $ret = call_user_func_array($ret, $args);
+    return $ret;
 }
 
 function id()
