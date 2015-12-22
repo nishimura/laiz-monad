@@ -64,7 +64,7 @@ trait CurryTrait
 
     public function compose(callable $f = null, $a = null)
     {
-        $ret = new static(function (callable $f, $a) use ($f){
+        $ret = new static(function (callable $f, $a){
             if (!($f instanceof static))
                 $f = new static($f);
             return call_user_func($this, $f($a));
