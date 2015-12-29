@@ -15,7 +15,7 @@ class Cons extends \Laiz\Monad\MonadList
     }
 
     /**
-     * @return Laiz\Monad\DataList
+     * @return Laiz\Monad\MonadList
      */
     public function mplus(MonadPlus $m)
     {

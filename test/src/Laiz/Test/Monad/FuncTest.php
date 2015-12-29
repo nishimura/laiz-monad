@@ -26,6 +26,7 @@ class FuncTest extends \PHPUnit_Framework_TestCase
         $left = fmap($id);
         $right = $id;
 
+        $this->assertEquals(4, $left($a)->apply(3));
         $this->assertEquals($left($a)->apply(3), $right($a)->apply(3));
     }
 

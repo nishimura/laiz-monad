@@ -16,7 +16,7 @@ class Func extends F\Curry implements Monad
     // Functor
     public function fmap(callable $f)
     {
-        return $this->compose($f);
+        return $f->compose($this);
     }
 
     // Applicative
@@ -25,12 +25,23 @@ class Func extends F\Curry implements Monad
         return new static($a);
     }
 
-    // Applicative
-    public function ap(F\Applicative $f)
+    // Applicative # <*> (sub class method required), Monad # ap
+    public function ap(F\Applicative $a)
     {
-        assert($f instanceof static);
+        assert($a instanceof static);
 
-        return $this->fmap($f);
+        if (!($this instanceof Monad)){
+            trigger_error('Not Supported ' . get_class($this));
+        }
+        if (!($a instanceof Monad)){
+            trigger_error('Not Supported ' . get_class($this));
+        }
+
+        return $this->bind(function($f) use ($a){
+            return $a->bind(function($v) use ($f){
+                return $this->ret($f($v));
+            });
+        });
     }
 
     // Monad

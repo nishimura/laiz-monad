@@ -40,22 +40,38 @@ function cnst($a = null, $b = null)
     return $ret;
 }
 
-function fmap(Functor $a = null, callable $f = null)
+function fmap(callable $f = null, Functor $a = null)
 {
-    $ret = f(function(Functor $a, callable $f){
+    $ret = f(function(callable $f, Functor $a){
         return $a->fmap($f);
     });
-    if ($a !== null)
-        $ret = $ret($a);
     if ($f !== null)
         $ret = $ret($f);
+    if ($a !== null)
+        $ret = $ret($a);
+    return $ret;
+}
+
+function compose(callable $f = null, callable $g = null, $a = null)
+{
+    $ret = f(function(callable $f, callable $g, $a){
+        if (!($f instanceof Functor))
+            $f = f($f);
+        return $f->compose($g, $a);
+    });
+    if ($f !== null)
+        $ret = $ret($f);
+    if ($g !== null)
+        $ret = $ret($g);
+    if ($a !== null)
+        $ret = $ret($a);
     return $ret;
 }
 
 function ap(Applicative $f = null, Applicative $a = null)
 {
     $ret = f(function (Applicative $f, Applicative $a){
-        return $a->ap($f);
+        return $f->ap($a);
     });
     if ($f !== null)
         $ret = $ret($f);

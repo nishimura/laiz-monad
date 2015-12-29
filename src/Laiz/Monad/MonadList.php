@@ -110,4 +110,9 @@ abstract class MonadList implements Monad, MonadPlus, \IteratorAggregate, \Count
         }
         return $ret;
     }
+
+    public function __debuginfo()
+    {
+        return ['value' => $this->toArray()];
+    }
 }
