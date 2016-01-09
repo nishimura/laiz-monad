@@ -4,5 +4,5 @@ namespace Laiz\Func;
 
 interface Functor
 {
-    public function fmap(callable $f);
+    public static function fmap(callable $f, $a);
 }

@@ -1,5 +1,6 @@
 <?php
 
+return;
 use Laiz\Func\Curry;
 use Laiz\Func\Functor;
 use Laiz\Func\Applicative;
@@ -12,7 +13,7 @@ function c(callable $f){
     return new Curry($f);
 }
 
-function f(callable $f){
+function _f(callable $f){
     $args = func_get_args();
     $ret = new Func($f);
     array_shift($args);

@@ -17,6 +17,21 @@ trait CurryTrait
         $args = array_fill(0, $count, null);
         $prev = function($a) use ($f, &$args, $count){
             $args[$count - 1] = $a;
+            $anys = [];
+            foreach ($args as $k => $v){
+                if ($v instanceof Any)
+                    $anys[$k] = $v;
+            }
+            if ($anys){
+                $ref = new \ReflectionFunction($f);
+                $params = $ref->getParameters();
+                foreach ($anys as $k => $v){
+                    $type = $params[$k]->getClass();
+                    if ($type){
+                        $args[$k] = $v->castByName($type->getName());
+                    }
+                }
+            }
             return call_user_func_array($f, $args);
         };
         for ($i = $count - 2; $i >= 0; $i--){
@@ -57,22 +72,8 @@ trait CurryTrait
     /*
      * alias of __invoke
      */
-    public function apply()
+    public function apply(...$args)
     {
-        return call_user_func_array($this, func_get_args());
-    }
-
-    public function compose(callable $f = null, $a = null)
-    {
-        $ret = new static(function (callable $f, $a){
-            if (!($f instanceof static))
-                $f = new static($f);
-            return call_user_func($this, $f($a));
-        });
-        if ($f !== null)
-            $ret = $ret($f);
-        if ($a !== null)
-            $ret = $ret($a);
-        return $ret;
+        return $this(...$args);
     }
 }

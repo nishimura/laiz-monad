@@ -2,7 +2,7 @@
 
 namespace Laiz\Test\Func;
 
-\Laiz\Monad\Func::importUtil();
+\Laiz\Func\Loader::load();
 
 class CurryTest extends \PHPUnit_Framework_TestCase
 {
