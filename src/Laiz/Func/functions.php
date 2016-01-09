@@ -189,9 +189,11 @@ function guard(...$args){
 
 
 // Maybe
-function Just($a)
+function Just(...$args)
 {
-    return new Func\Maybe\Just($a);
+    return f(function($a){
+        return new Func\Maybe\Just($a);
+    }, ...$args);
 }
 function Nothing()
 {
@@ -220,8 +222,16 @@ function maybe(...$args)
 
 
 // Either
-function Left($a){ return new Func\Either\Left($a); }
-function Right($a){ return new Func\Either\Right($a); }
+function Left(...$args){
+    return f(function($a){
+        return new Func\Either\Left($a);
+    }, ...$args);
+}
+function Right(...$args){
+    return f(function($a){
+        return new Func\Either\Right($a);
+    }, ...$args);
+}
 
 function either(...$args){
     return f(function(callable $left, callable $right, Func\Either $a){
@@ -231,10 +241,12 @@ function either(...$args){
 
 
 // Writer
-function tell($w)
+function tell(...$args)
 {
     // Monoid w
-    return new Func\Writer(new Func\Unit(), $w);
+    return f(function($w){
+        return new Func\Writer(new Func\Unit(), $w);
+    }, ...$args);
 }
 
 function runWriter(...$args)
