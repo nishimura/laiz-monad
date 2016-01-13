@@ -6,9 +6,21 @@ trait CurryTrait
 {
     protected $value;
 
+    private static function getReflection(callable $f)
+    {
+        if (is_array($f)){
+            return new \ReflectionMethod($f[0], $f[1]);
+        }else if (is_string($f) &&
+                  preg_match('/^([^:]+)::(.*)$/', $f, $m)){
+            return new \ReflectionMethod($m[1], $m[2]);
+        }else{
+            return new \ReflectionFunction($f);
+        }
+    }
+
     public static function curry(callable $f)
     {
-        $ref = new \ReflectionFunction($f);
+        $ref = self::getReflection($f);
         $count = $ref->getNumberOfParameters();
 
         if ($count === 0)
@@ -48,7 +60,7 @@ trait CurryTrait
         if ($this->value instanceof Curry){
             $count = 1;
         }else if (is_callable($this->value)){
-            $ref = new \ReflectionFunction($this->value);
+            $ref = self::getReflection($this->value);
             $count = $ref->getNumberOfParameters();
         }
 

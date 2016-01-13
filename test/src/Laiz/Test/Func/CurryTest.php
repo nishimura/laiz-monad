@@ -58,4 +58,16 @@ class CurryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($f2(3), [1, 2, 3]);
         $this->assertEquals($f1(2, 3), [1, 2, 3]);
     }
+
+    public static function staticFunc($a){}
+    public function testStaticString()
+    {
+        $f = c('Laiz\Test\Func\CurryTest::staticFunc');
+        $this->assertInstanceOf('Laiz\Func\Curry', $f);
+    }
+    public function testStaticArray()
+    {
+        $f = c(['Laiz\Test\Func\CurryTest','staticFunc']);
+        $this->assertInstanceOf('Laiz\Func\Curry', $f);
+    }
 }
