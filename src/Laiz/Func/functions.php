@@ -12,11 +12,11 @@ function c(callable $f){
 
 function f(callable $f, ...$args){
     if (!($f instanceof Laiz\Func\Func))
-        $ret = new Laiz\Func\Func($f);
+        $f = new Laiz\Func\Func($f);
 
     if ($args)
-        $ret = $ret(...$args);
-    return $ret;
+        $f = $f(...$args);
+    return $f;
 }
 
 function _callInstance($class, $method, ...$args)

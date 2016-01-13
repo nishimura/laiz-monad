@@ -62,4 +62,11 @@ class FuncTest extends \PHPUnit_Framework_TestCase
         $ret = $f->ap(function($a){ return $a + 2; });
         $this->assertEquals(-2, $ret(4));
     }
+
+    public function testBind()
+    {
+        $f = f(function($a){ return $a - 2; });
+        $ret = $f->bind(f(function($a, $b){ return $a - $b; }));
+        $this->assertEquals(-2, $ret(4));
+    }
 }
