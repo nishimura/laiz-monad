@@ -45,13 +45,13 @@ function _typeToInstance($method){
 function _classToInstance($type, $method)
 {
     $prefix = _typeToInstance($method);
-    $type = preg_replace('/Laiz\\\\Func\\\\/', '', $type);
-    if (preg_match('/((\\\\[[:alnum:]_]+){2})$/', $type, $matches))
-        $type = ltrim($matches[1], '\\');
-    $class = 'Laiz\Func\\' . $prefix . '\\' . $type;
+    $class = preg_replace('/^(.*?)(\\\\[[:alnum:]_]+)$/',
+                          '\\1\\' . $prefix . '\\2', $type);
     if (!class_exists($class)){
         $old = $class;
-        $class = preg_replace('/\\\\[[:alnum:]_]+$/', '', $class);
+        $type = preg_replace('/\\\\[[:alnum:]_]+$/', '', $type);
+        $class = preg_replace('/^(.*?)(\\\\[[:alnum:]_]+)$/',
+                              '\\1\\' . $prefix . '\\2', $type);
         assert(class_exists($class),
                "Class [$old] and [$class] not exists.");
     }
