@@ -9,14 +9,14 @@ trait CallTrait
         assert(function_exists($name), "Undefined method [$name]");
 
         $methods = [
-            'ret' => 'Monad',
-            'mempty' => 'Monoid',
-            'mzero' => 'MonadPlus',
-            'pure' => 'Applicative'
+            'ret',
+            'mempty',
+            'mzero',
+            'pure'
         ];
 
-        if (array_key_exists($name, $methods)){
-            return _callInstance($this, $methods[$name], $name, ...$args);
+        if (in_array($name, $methods)){
+            return _callInstanceMethod($this, $name, ...$args);
         }
 
         array_unshift($args, $this);
