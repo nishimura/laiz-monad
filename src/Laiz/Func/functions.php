@@ -102,6 +102,14 @@ function flip(...$args)
     });
 }
 
+function map(...$args)
+{
+    return f(function(callable $f, $as){
+        foreach ($as as $k => $a)
+            yield $f($a, $k);
+    }, ...$args);
+}
+
 // Functor
 // <$>
 function fmap(...$args)
