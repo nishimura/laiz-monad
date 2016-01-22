@@ -11,7 +11,12 @@ class CurryTest extends \PHPUnit_Framework_TestCase
      */
     public function testNull()
     {
-        $f = c();
+        try {
+            $f = c();
+        }catch (\TypeError $e){
+            // PHP7
+            trigger_error($e->getMessage(), E_USER_ERROR);
+        }
     }
 
     /**
@@ -19,7 +24,12 @@ class CurryTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalid()
     {
-        $f = c(1);
+        try {
+            $f = c(1);
+        }catch (\TypeError $e){
+            // PHP7
+            trigger_error($e->getMessage(), E_USER_ERROR);
+        }
     }
 
     public function testInstance()
