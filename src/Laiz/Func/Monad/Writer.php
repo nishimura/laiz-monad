@@ -19,10 +19,8 @@ class Writer extends Applicative\Writer implements Monad
         return new Instance($inner->a, mappend($m->w, $inner->w));
     }
 
-    public static function ret(...$args)
+    public static function ret($a)
     {
-        return f(function($a){
-            return new Instance($a, mempty());
-        }, ...$args);
+        return new Instance($a, mempty());
     }
 }
