@@ -26,33 +26,37 @@ trait CurryTrait
         if ($count === 0)
             throw new \InvalidArgumentException('Cannot curry none arguments function');
 
-        $args = array_fill(0, $count, null);
-        $prev = function($a) use ($f, &$args, $count){
-            $args[$count - 1] = $a;
-            $anys = [];
-            foreach ($args as $k => $v){
-                if ($v instanceof Any)
-                    $anys[$k] = $v;
-            }
-            if ($anys){
-                $ref = new \ReflectionFunction($f);
-                $params = $ref->getParameters();
-                foreach ($anys as $k => $v){
-                    $type = $params[$k]->getClass();
-                    if ($type){
-                        $args[$k] = $v->castByName($type->getName());
+        $makeCurry = function($count, $args) use ($f, &$makeCurry){
+            $count--;
+            if ($count > 0){
+                return new static(function($a) use (&$makeCurry, $count, $args){
+                    $args[] = $a;
+                    return $makeCurry($count, $args);
+                });
+            }else{
+                return function($a) use ($args, $f){
+                    $args[] = $a;
+                    $anys = [];
+
+                    foreach ($args as $k => $v){
+                        if ($v instanceof Any)
+                            $anys[$k] = $v;
                     }
-                }
+                    if ($anys){
+                        $ref = new \ReflectionFunction($f);
+                        $params = $ref->getParameters();
+                        foreach ($anys as $k => $v){
+                            $type = $params[$k]->getClass();
+                            if ($type){
+                                $args[$k] = $v->castByName($type->getName());
+                            }
+                        }
+                    }
+                    return $f(...$args);
+                };
             }
-            return call_user_func_array($f, $args);
         };
-        for ($i = $count - 2; $i >= 0; $i--){
-            $prev = new static(function($a) use ($prev, &$args, $i){
-                $args[$i] = $a;
-                return $prev;
-            });
-        }
-        return $prev;
+        return $makeCurry($count, []);
     }
 
     public function __invoke($a)

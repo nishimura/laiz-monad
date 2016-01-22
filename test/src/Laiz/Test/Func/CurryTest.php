@@ -80,4 +80,22 @@ class CurryTest extends \PHPUnit_Framework_TestCase
         $f = c(['Laiz\Test\Func\CurryTest','staticFunc']);
         $this->assertInstanceOf('Laiz\Func\Curry', $f);
     }
+
+    public function testReferentialTransparency()
+    {
+        $f = c(function($a, $b, $c){
+            return $a + $b + $c;
+        });
+        $f1 = $f(5);
+        $f2 = $f1(8);
+        $this->assertEquals(213, $f2(200));
+
+        $f3 = $f1(9);
+        $this->assertEquals(213, $f2(200));
+        $this->assertEquals(214, $f3(200));
+
+        $tmp = $f(-100);
+        $this->assertEquals(213, $f2(200));
+        $this->assertEquals(214, $f3(200));
+    }
 }
