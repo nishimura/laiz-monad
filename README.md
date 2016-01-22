@@ -1,8 +1,13 @@
 Laiz Monad
 ==========
 
+
+
 [![Build Status](https://travis-ci.org/nishimura/laiz-monad.svg?branch=master)](https://travis-ci.org/nishimura/laiz-monad)
 [![Coverage Status](https://coveralls.io/repos/github/nishimura/laiz-monad/badge.svg?branch=master)](https://coveralls.io/github/nishimura/laiz-monad?branch=master)
+
+[![Code Climate](https://codeclimate.com/github/nishimura/laiz-monad/badges/gpa.svg)](https://codeclimate.com/github/nishimura/laiz-monad)
+
 
 ## Curried Function
 
