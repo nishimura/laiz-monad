@@ -44,17 +44,28 @@ function _typeToInstance($method){
 }
 function _classToInstance($type, $method)
 {
+    static $cache;
+    if ($cache === null)
+        $cache = [];
+    if (isset($cache[$type][$method]))
+        return $cache[$type][$method];
+
     $prefix = _typeToInstance($method);
     $class = preg_replace('/^(.*?)(\\\\[[:alnum:]_]+)$/',
                           '\\1\\' . $prefix . '\\2', $type);
     if (!class_exists($class)){
         $old = $class;
+        $oldType = $type;
         $type = preg_replace('/\\\\[[:alnum:]_]+$/', '', $type);
         $class = preg_replace('/^(.*?)(\\\\[[:alnum:]_]+)$/',
                               '\\1\\' . $prefix . '\\2', $type);
         assert(class_exists($class),
                "Class [$old] and [$class] not exists.");
+
+        $cache[$oldType][$method] = $class;
     }
+
+    $cache[$type][$method] = $class;
     return $class;
 }
 
