@@ -110,7 +110,7 @@ function flip(...$args)
 {
     return f(function(callable $f, $a, $b){
         return $f($b, $a);
-    });
+    }, ...$args);
 }
 
 function map(...$args)
