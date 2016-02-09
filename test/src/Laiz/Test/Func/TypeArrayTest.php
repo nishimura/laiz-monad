@@ -1,9 +1,10 @@
 <?php
 namespace Laiz\Test\Func;
 
-use Laiz\Func;
-
-Func\Loader::load();
+use function Laiz\Func\Functor\fmap;
+use function Laiz\Func\Monad\bind;
+use function Laiz\Func\Monoid\mappend;
+use function Laiz\Func\MonadPlus\mplus;
 
 class TypeArrayTest extends \PHPUnit_Framework_TestCase
 {

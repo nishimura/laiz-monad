@@ -3,6 +3,9 @@ namespace Laiz\Test\Func;
 
 use Laiz\Func\Writer;
 use Laiz\Func\Monad;
+use function Laiz\Func\Monad\ret;
+use function Laiz\Func\Writer\runWriter;
+use function Laiz\Func\Writer\tell;
 
 class WriterTest extends \PHPUnit_Framework_TestCase
 {

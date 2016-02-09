@@ -2,8 +2,18 @@
 namespace Laiz\Test\Func;
 
 use Laiz\Func;
-
-\Laiz\Func\Loader::load();
+use function Laiz\Func\f;
+use function Laiz\Func\Functor\fconst;
+use function Laiz\Func\Monad\ret;
+use function Laiz\Func\Monoid\mappend;
+use function Laiz\Func\Monoid\mempty;
+use function Laiz\Func\MonadZero\mzero;
+use function Laiz\Func\MonadZero\guard;
+use function Laiz\Func\Maybe\Just;
+use function Laiz\Func\Maybe\Nothing;
+use function Laiz\Func\Maybe\fromMaybe;
+use function Laiz\Func\Writer\runWriter;
+use function Laiz\Func\Writer\tell;
 
 class AnyTest extends \PHPUnit_Framework_TestCase
 {

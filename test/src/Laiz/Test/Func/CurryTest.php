@@ -2,7 +2,7 @@
 
 namespace Laiz\Test\Func;
 
-\Laiz\Func\Loader::load();
+use function Laiz\Func\c;
 
 class CurryTest extends \PHPUnit_Framework_TestCase
 {
