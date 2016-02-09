@@ -2,11 +2,11 @@
 
 namespace Laiz\Func\MonadZero;
 
-use Laiz\Func\Applicative;
+use Laiz\Func\Monad;
 use Laiz\Func\MonadZero;
 use Laiz\Func\Any as Instance;
 
-class Any extends Applicative\Any implements MonadZero
+class Any extends Monad\Any implements MonadZero
 {
     public static function mzero()
     {

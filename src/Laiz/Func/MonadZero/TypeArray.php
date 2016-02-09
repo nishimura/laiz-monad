@@ -2,11 +2,11 @@
 
 namespace Laiz\Func\MonadZero;
 
-use Laiz\Func\Applicative;
+use Laiz\Func\Monad;
 use Laiz\Func\MonadZero;
 use Laiz\Func\Monoid;
 
-class TypeArray extends Applicative\TypeArray implements MonadZero
+class TypeArray extends Monad\TypeArray implements MonadZero
 {
     public static function mzero()
     {

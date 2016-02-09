@@ -2,7 +2,7 @@
 
 namespace Laiz\Func;
 
-interface MonadZero extends Applicative
+interface MonadZero extends Monad
 {
     public static function mzero();
 }
