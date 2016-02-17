@@ -114,4 +114,15 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Just(1), fconst(1, Just(2)));
         $this->assertEquals(Nothing(), fconst(1, Nothing()));
     }
+
+    public function testFromMaybeStringBugfix()
+    {
+        // TODO: move FuncTest
+        $z = Nothing();
+        $m = Just('printf');
+
+        $this->assertEquals('a', fromMaybe('a', $z));
+        $this->assertEquals('printf', fromMaybe('a', $m));
+    }
+
 }

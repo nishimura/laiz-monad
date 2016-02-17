@@ -63,7 +63,7 @@ trait CurryTrait
     {
         if ($this->value instanceof Curry){
             $count = 1;
-        }else if (is_callable($this->value)){
+        }else if (is_object($this->value) && is_callable($this->value)){
             $ref = self::getReflection($this->value);
             $count = $ref->getNumberOfParameters();
         }
@@ -78,7 +78,8 @@ trait CurryTrait
         if ($args){
             return call_user_func_array($ret, $args);
         }else{
-            if (is_callable($ret) && !($ret instanceof Curry))
+            if (is_object($ret) &&
+                is_callable($ret) && !($ret instanceof Curry))
                 return new static($ret);
             else
                 return $ret;
