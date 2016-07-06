@@ -14,6 +14,8 @@ Laiz Monad
 ```php
 require 'vendor/autoload.php';
 
+use function Laiz\Func\f;
+
 $f = f(function($a, $b, $c){
     return $a + $b + $c;
 });
@@ -35,6 +37,10 @@ var_dump($f(1,2,3));
 ```php
 require 'vendor/autoload.php';
 
+use function Laiz\Func\f;
+use function Laiz\Func\Maybe\Just;
+use function Laiz\Func\Maybe\Nothing;
+
 $a = Just(3);
 $f = f(function($limit, $a){
     return $limit > $a ? Just($a) : Nothing();
@@ -53,6 +59,9 @@ var_dump($a->bind($f4));
 ```php
 require 'vendor/autoload.php';
 
+use function Laiz\Func\Monad\ret;
+use function Laiz\Func\Maybe\Just;
+
 $monad = ret("Foo");
 var_dump($monad->mappend([]));
 // ['Foo']
@@ -69,6 +78,13 @@ var_dump($monad->mplus(Just("Baz")));
 
 ```php
 require 'vendor/autoload.php';
+
+use function Laiz\Func\f;
+use function Laiz\Func\Functor\fmap;
+use function Laiz\Func\Functor\fconst;
+use function Laiz\Func\Monoid\mappend;
+use function Laiz\Func\MonadZero\guard;
+use function Laiz\Func\Maybe\fromMaybe;
 
 // (integer d, Functor s, MonadPlus s) => d -> a -> d -> s a
 function calc(...$args){
