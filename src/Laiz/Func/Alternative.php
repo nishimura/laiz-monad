@@ -2,19 +2,23 @@
 
 namespace Laiz\Func;
 
-interface MonadPlus extends Monad
+interface Alternative
 {
-    public static function mplus($m1, $m2);
+    public static function aempty();
+    public static function aor($a, $b);
 }
 
-namespace Laiz\Func\MonadPlus;
 
+namespace Laiz\Func\Alternative;
 use Laiz\Func\Loader;
 use Laiz\Func\Any;
 use function Laiz\Func\f;
-use function Laiz\Func\_callInstanceMethod;
 
-function mplus(...$args) {
+function aempty(){
+    return new Any('aempty');
+}
+
+function aor(...$args){
     return f(function($m1, $m2){
         if ($m1 instanceof Any &&
             !($m2 instanceof Any))
@@ -22,6 +26,6 @@ function mplus(...$args) {
         else if ($m2 instanceof Any &&
                  !($m1 instanceof Any))
             $m2 = $m2->cast($m1);
-        return Loader::callInstanceMethod($m1, 'mplus', $m1, $m2);
+        return Loader::callInstanceMethod($m1, 'aor', $m1, $m2);
     }, ...$args);
 }

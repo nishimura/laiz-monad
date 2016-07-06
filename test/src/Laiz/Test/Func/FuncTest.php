@@ -3,8 +3,9 @@
 namespace Laiz\Test\Func;
 
 use Laiz\Func\Func;
-
-\Laiz\Func\Loader::load();
+use function Laiz\Func\f;
+use function Laiz\Func\id;
+use function Laiz\Func\Functor\fmap;
 
 class FuncTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,6 +2,15 @@
 namespace Laiz\Test\Func;
 
 use Laiz\Func;
+use function Laiz\Func\Maybe\Just;
+use function Laiz\Func\Maybe\Nothing;
+use function Laiz\Func\f;
+use function Laiz\Func\Functor\fmap;
+use function Laiz\Func\Functor\fconst;
+use function Laiz\Func\Applicative\ap;
+use function Laiz\Func\Monad\bind;
+use function Laiz\Func\Maybe\maybe;
+use function Laiz\Func\Maybe\fromMaybe;
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
 {

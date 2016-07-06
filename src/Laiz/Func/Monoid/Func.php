@@ -4,6 +4,8 @@ namespace Laiz\Func\Monoid;
 
 use Laiz\Func\Monoid;
 use Laiz\Func\Func as Instance;
+use function Laiz\Func\f;
+use function Laiz\Func\Monoid\mappend;
 
 class Func implements Monoid
 {

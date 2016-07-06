@@ -2,6 +2,10 @@
 
 namespace Laiz\Func;
 
+use Laiz\Func\Loader;
+use function Laiz\Func\Functor\fmap;
+use function Laiz\Func\_callInstanceMethod;
+
 class Any
 {
     use CallTrait;
@@ -29,10 +33,11 @@ class Any
     {
         foreach ($this->ops as $op){
             list($method, $any) = $op;
-            if ($method === self::FMAP)
+            if ($method === self::FMAP){
                 $ret = fmap($any, $ret);
-            else
-                $ret = $method($ret, $any->cast($ret));
+            }else{
+                $ret = Loader::callFunction($method, $ret, $any->cast($ret));
+            }
         }
         return $ret;
     }
@@ -41,7 +46,7 @@ class Any
         $args = [];
         if (!($this->value instanceof Nul))
             $args[] = $this->value;
-        $ret = _callInstanceMethodString($name, $this->op, ...$args);
+        $ret = Loader::callInstanceMethodString($name, $this->op, ...$args);
         return $this->opsFold($ret);
     }
 
@@ -53,7 +58,7 @@ class Any
             $args = [];
             if (!($this->value instanceof Nul))
                 $args[] = $this->value;
-            $ret = _callInstanceMethod($m, $this->op, ...$args);
+            $ret = Loader::callInstanceMethod($m, $this->op, ...$args);
             return $this->opsFold($ret);
         }
 

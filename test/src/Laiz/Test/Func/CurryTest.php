@@ -2,7 +2,7 @@
 
 namespace Laiz\Test\Func;
 
-\Laiz\Func\Loader::load();
+use function Laiz\Func\c;
 
 class CurryTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,6 +15,9 @@ class CurryTest extends \PHPUnit_Framework_TestCase
             $f = c();
         }catch (\TypeError $e){
             // PHP7
+            trigger_error($e->getMessage(), E_USER_ERROR);
+        }catch (\Error $e){
+            // nightly
             trigger_error($e->getMessage(), E_USER_ERROR);
         }
     }

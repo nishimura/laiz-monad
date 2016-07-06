@@ -5,6 +5,8 @@ namespace Laiz\Func\Monad;
 use Laiz\Func\Applicative;
 use Laiz\Func\Monad;
 use Laiz\Func\Writer as Instance;
+use function Laiz\Func\Monoid\mappend;
+use function Laiz\Func\Monoid\mempty;
 
 class Writer extends Applicative\Writer implements Monad
 {
