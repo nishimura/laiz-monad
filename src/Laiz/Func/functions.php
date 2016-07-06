@@ -56,3 +56,65 @@ function map(...$args)
             yield $f($a);
     }, ...$args);
 }
+
+function filter(...$args)
+{
+    return f(function($f, $as){
+        $ret = [];
+        foreach ($as as $v){
+            if ($f($v))
+                $ret[] = $v;
+        }
+        return $ret;
+    }, ...$args);
+}
+
+function foldl(...$args)
+{
+    return f(function($f, $a, $b){
+        $ret = $a;
+        foreach ($b as $v){
+            $ret = $f($ret, $v);
+        }
+        return $ret;
+    }, ...$args);
+}
+
+function foldr(...$args)
+{
+    return f(function($f, $a, $b){
+        $ret = $a;
+        for ($i = count($b) - 1; $i >= 0; $i--){
+            $ret = $f($ret, $b[$i]);
+        }
+        return $ret;
+    }, ...$args);
+}
+
+function colon(...$args)
+{
+    return f(function($a, $as){
+        array_unshift($as, $a);
+        return $as;
+    }, ...$args);
+}
+function colonr(...$args)
+{
+    return f(function($a, $as){
+        $as[] = $a;
+        return $as;
+    }, ...$args);
+}
+
+function concat(...$args)
+{
+    return f(function($ass){
+        $ret = [];
+        foreach ($ass as $as){
+            foreach ($as as $a){
+                $ret[] = $a;
+            }
+        }
+        return $ret;
+    }, ...$args);
+}

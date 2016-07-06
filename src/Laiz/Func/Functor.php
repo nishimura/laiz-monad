@@ -15,7 +15,7 @@ use function Laiz\Func\_callInstanceMethod;
 use function Laiz\Func\f;
 use function Laiz\Func\cnst;
 
-// <$>
+// (<$>) :: Functor f => (a -> b) -> f a -> f b
 function fmap(...$args)
 {
     return f(function(callable $f, $a){
@@ -23,7 +23,7 @@ function fmap(...$args)
     }, ...$args);
 }
 
-// <$
+// (<$) :: Functor f => a -> f b -> f a
 function fconst(...$args)
 {
     $ret = fmap()->compose(cnst());

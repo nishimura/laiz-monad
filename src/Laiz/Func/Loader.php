@@ -13,7 +13,7 @@ class Loader
 
         if ($name === null || $name === 'classes'){
             foreach (['functions', 'Functor', 'Applicative', 'Monad',
-                      'MonadPlus', 'MonadZero', 'Monoid',
+                      'MonadPlus', 'MonadZero', 'Monoid', 'Alternative',
                       'Maybe', 'Either', 'Writer'] as $file)
                 require_once __DIR__ . "/$file.php";
             return;
@@ -39,11 +39,20 @@ class Loader
         return $method(...$args);
     }
 
+    // If register new utility function then call setMethod.
+    // Can use method call "$monad->($monadFunc)"
+    // instead of "bind($monad, $monadFunc)".
+    //
+    // definitions of global function
+    // used in Any and CallTrait
     private static $funcMap = [
         'compose' => 'Laiz\Func',
         'fmap' => 'Laiz\Func\Functor',
         'pure' => 'Laiz\Func\Applicative',
         'ap' => 'Laiz\Func\Applicative',
+        'const1' => 'Laiz\Func\Applicative',
+        'const2' => 'Laiz\Func\Applicative',
+        'aor' => 'Laiz\Func\Alternative',
         'ret' => 'Laiz\Func\Monad',
         'bind' => 'Laiz\Func\Monad',
         'mempty' => 'Laiz\Func\Monoid',
@@ -62,10 +71,14 @@ class Loader
         self::$funcMap[$func] = $namespace;
     }
 
+    // If register new type-class then call setMethod.
+    //
+    // resolv a instance class of type-class
     private static $methodMap = [
         'fmap' => 'Functor',
         'pure' => 'Applicative',
         'ap' => 'Applicative',
+        'aor' => 'Alternative',
         'ret' => 'Monad',
         'bind' => 'Monad',
         'mempty' => 'Monoid',
@@ -73,11 +86,18 @@ class Loader
         'mzero' => 'MonadZero',
         'mplus' => 'MonadPlus'
     ];
-    public static function typeToInstance($method){
+    public static function methodToClass($method){
         return self::$methodMap[$method];
     }
-    public static function setMethod($method, $class){
+    private static $namespaceMap = [];
+    public static function setMethod($method, $class, $namespace){
         self::$methodMap[$method] = $class;
+        self::$namespaceMap[$method] = $namespace;
+    }
+    public static function methodToNamespace($method){
+        if (isset(self::$namespaceMap[$method]))
+            return self::$namespaceMap[$method];
+        return 'Laiz\\Func';
     }
 
     public static function classToInstance($type, $method)
@@ -88,7 +108,7 @@ class Loader
         if (isset($cache[$type][$method]))
             return $cache[$type][$method];
 
-        $prefix = self::typeToInstance($method);
+        $prefix = self::methodToClass($method);
         $class = preg_replace('/^(.*?)(\\\\[[:alnum:]_]+)$/',
                               '\\1\\' . $prefix . '\\2', $type);
         if (!class_exists($class)){
@@ -109,11 +129,12 @@ class Loader
 
     public static function callInstanceMethod($a, $method, ...$args)
     {
-        $prefix = self::typeToInstance($method);
         if (!is_object($a)){
             $a = gettype($a);
             $a = ucfirst(strtolower($a));
-            $a = 'Laiz\\Func\\' . $prefix . '\\Type' . $a;
+            $prefix = self::methodToClass($method);
+            $namespace = self::methodToNamespace($method);
+            $a = $namespace . '\\' . $prefix . '\\Type' . $a;
         }else{
             $a = self::classToInstance(get_class($a), $method);
         }
