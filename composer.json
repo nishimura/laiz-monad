@@ -1,7 +1,7 @@
 {
   "name": "laiz/laiz-monad",
   "description": "Monad Utility",
-  "keywords": ["monad"],
+  "keywords": ["functional", "monad"],
   "homepage": "https://github.com/nishimura/laiz-monad",
   "license": "MIT",
   "authors": [{
