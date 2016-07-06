@@ -5,6 +5,7 @@ namespace Laiz\Func\Monad;
 use Laiz\Func\Applicative;
 use Laiz\Func\Monad;
 use Laiz\Func\Func as Instance;
+use function Laiz\Func\f;
 
 class Func extends Applicative\Func implements Monad
 {

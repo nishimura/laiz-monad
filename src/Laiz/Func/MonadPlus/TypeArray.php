@@ -8,11 +8,6 @@ use Laiz\Func\Monoid;
 
 class TypeArray extends Monad\TypeArray implements MonadPlus
 {
-    public static function mzero()
-    {
-        return Monoid\TypeArray::mempty();
-    }
-
     public static function mplus($m1, $m2)
     {
         return Monoid\TypeArray::mappend($m1, $m2);

@@ -8,11 +8,6 @@ use Laiz\Func\Any as Instance;
 
 class Any extends Monad\Any implements MonadPlus
 {
-    public static function mzero()
-    {
-        return new Instance();
-    }
-
     public static function mplus($m1, $m2)
     {
         assert($m1 instanceof Instance, 'First argument must be Any');

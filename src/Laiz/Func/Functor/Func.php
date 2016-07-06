@@ -3,6 +3,7 @@
 namespace Laiz\Func\Functor;
 
 use Laiz\Func\Functor;
+use function Laiz\Func\compose;
 
 class Func implements Functor
 {

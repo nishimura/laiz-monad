@@ -4,6 +4,8 @@ namespace Laiz\Func\Applicative;
 
 use Laiz\Func\Functor;
 use Laiz\Func\Applicative;
+use function Laiz\Func\cnst;
+use function Laiz\Func\f;
 
 class Func extends Functor\Func implements Applicative
 {

@@ -5,6 +5,7 @@ namespace Laiz\Func\Applicative;
 use Laiz\Func\Functor;
 use Laiz\Func\Applicative;
 use Laiz\Func\Maybe as Instance;
+use function Laiz\Func\Functor\fmap;
 
 class Maybe extends Functor\Maybe implements Applicative
 {

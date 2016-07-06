@@ -2,7 +2,11 @@
 
 namespace Laiz\Test\Func;
 
-\Laiz\Func\Loader::load();
+use function Laiz\Func\Monad\ret;
+use function Laiz\Func\MonadZero\mzero;
+use function Laiz\Func\MonadPlus\mplus;
+use function Laiz\Func\Maybe\Just;
+use function Laiz\Func\Maybe\Nothing;
 
 class Tree
 {
@@ -55,13 +59,13 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testTreeMaybe()
     {
         $ret = $this->runSearch();
-        $this->assertEquals(Just(3), $ret->mplus(Nothing()));
+        $this->assertEquals(Just(3), mplus($ret, Nothing()));
     }
 
     public function testTreeArray()
     {
         $ret = $this->runSearch();
 
-        $this->assertEquals([3,1], $ret->mplus([]));
+        $this->assertEquals([3,1], mplus($ret, []));
     }
 }

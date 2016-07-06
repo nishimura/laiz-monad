@@ -3,13 +3,14 @@
 namespace Laiz\Test\Func;
 
 use Laiz\Func;
+use function Laiz\Func\Either\Right;
+use function Laiz\Func\Either\Left;
+use function Laiz\Func\Either\either;
 
 class EitherTest extends \PHPUnit_Framework_TestCase
 {
     public function testChain1()
     {
-        \Laiz\Func\Loader::load(true);
-
         $f = function($a){ return $a >= 5 ? Right($a) : Left('under 5'); };
         $g = function($a){ return $a <= 10 ? Right($a) : Left('over 10'); };
 
