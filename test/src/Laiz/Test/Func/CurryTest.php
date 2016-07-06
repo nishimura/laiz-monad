@@ -16,6 +16,9 @@ class CurryTest extends \PHPUnit_Framework_TestCase
         }catch (\TypeError $e){
             // PHP7
             trigger_error($e->getMessage(), E_USER_ERROR);
+        }catch (\Error $e){
+            // nightly
+            trigger_error($e->getMessage(), E_USER_ERROR);
         }
     }
 
