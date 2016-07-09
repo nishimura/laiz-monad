@@ -20,9 +20,13 @@ use function Laiz\Func\Functor\fmap;
 
 function pure(...$args)
 {
-    return f(function($a){
+    $f = function($a){
         return new Any('pure', $a);
-    }, ...$args);
+    };
+    if (count($args) === 1)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 
 
@@ -30,31 +34,47 @@ function pure(...$args)
 // (NOT monad's ap)
 function ap(...$args)
 {
-    return f(function($f, $g){
+    $f = function($f, $g){
         return Loader::callInstanceMethod($f, 'ap', $f, $g);
-    }, ...$args);
+    };
+    if (count($args) === 2)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 
 // liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
 function liftA2(...$args)
 {
-    return f(function($f, $a, $b){
+    $f = function($f, $a, $b){
         return ap(fmap($f, $a), $b);
-    }, ...$args);
+    };
+    if (count($args) === 3)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 
 // (<*) :: Applicative f => f a -> f b -> f a
 function const1(...$args)
 {
-    return f(function($a, $b){
+    $f = function($a, $b){
         return ap(fmap(cnst(), $a), $b);
-    }, ...$args);
+    };
+    if (count($args) === 2)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 
 // (*>) :: Applicative f => f a -> f b -> f b
 function const2(...$args)
 {
-    return f(function($a1, $a2){
+    $f = function($a1, $a2){
         return ap(fconst(id(), $a1), $a2);
-    }, ...$args);
+    };
+    if (count($args) === 2)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }

@@ -19,6 +19,9 @@ use function Laiz\Func\f;
 
 function Just(...$args)
 {
+    if (count($args) === 1)
+        return new Maybe\Just(...$args);
+
     return f(function($a){
         return new Maybe\Just($a);
     }, ...$args);
