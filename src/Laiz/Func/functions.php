@@ -82,28 +82,40 @@ function foldl(...$args)
 
 function foldr(...$args)
 {
-    return f(function($f, $a, $b){
+    $f = function($f, $a, $b){
         $ret = $a;
         for ($i = count($b) - 1; $i >= 0; $i--){
             $ret = $f($ret, $b[$i]);
         }
         return $ret;
-    }, ...$args);
+    };
+    if (count($args) === 3)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 
 function colon(...$args)
 {
-    return f(function($a, $as){
+    $f = function($a, $as){
         array_unshift($as, $a);
         return $as;
-    }, ...$args);
+    };
+    if (count($args))
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 function colonr(...$args)
 {
-    return f(function($a, $as){
+    $f = function($a, $as){
         $as[] = $a;
         return $as;
-    }, ...$args);
+    };
+    if (count($args) === 2)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 
 function concat(...$args)

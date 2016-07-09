@@ -18,9 +18,13 @@ use function Laiz\Func\cnst;
 // (<$>) :: Functor f => (a -> b) -> f a -> f b
 function fmap(...$args)
 {
-    return f(function(callable $f, $a){
+    $f = function(callable $f, $a){
         return Loader::callInstanceMethod($a, 'fmap', $f, $a);
-    }, ...$args);
+    };
+    if (count($args) === 2)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
 
 // (<$) :: Functor f => a -> f b -> f a

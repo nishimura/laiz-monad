@@ -17,7 +17,7 @@ use function Laiz\Func\_callInstanceMethod;
 
 function bind(...$args) {
     $f = function($m, callable $f){
-        $ret = Loader::callInstanceMethod($m, 'bind', $m, f($f));
+        $ret = Loader::callInstanceMethod($m, 'bind', $m, $f);
         if ($ret instanceof Any)
             $ret = $ret->cast($m);
         return $ret;
