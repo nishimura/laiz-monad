@@ -16,15 +16,23 @@ use function Laiz\Func\f;
 use function Laiz\Func\_callInstanceMethod;
 
 function bind(...$args) {
-    return f(function($m, callable $f){
+    $f = function($m, callable $f){
         $ret = Loader::callInstanceMethod($m, 'bind', $m, f($f));
         if ($ret instanceof Any)
             $ret = $ret->cast($m);
         return $ret;
-    }, ...$args);
+    };
+    if (count($args) === 2)
+        return $f(...$args);
+    else
+        return f($f,...$args);
 }
 function ret(...$args) {
-    return f(function($a){
+    $f = function($a){
         return new Any('ret', $a);
-    }, ...$args);
+    };
+    if (count($args) === 1)
+        return $f(...$args);
+    else
+        return f($f, ...$args);
 }
