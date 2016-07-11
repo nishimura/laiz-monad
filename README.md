@@ -8,6 +8,9 @@ Laiz Monad
 
 [![Code Climate](https://codeclimate.com/github/nishimura/laiz-monad/badges/gpa.svg)](https://codeclimate.com/github/nishimura/laiz-monad)
 
+[![Latest Stable Version](https://poser.pugx.org/laiz/laiz-monad/v/stable)](https://packagist.org/packages/laiz/laiz-monad)
+[![License](https://poser.pugx.org/laiz/laiz-monad/license)](LICENSE)
+
 
 ## Curried Function
 
